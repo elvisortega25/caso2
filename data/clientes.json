@@ -1,0 +1,51 @@
+[
+  {
+    "id": "CLI-001",
+    "razon_social": "Supermercados El Litoral S.A.C.",
+    "ruc": "20485912341",
+    "ciudad": "Guayaquil",
+    "direccion": "Av. Juan Tanca Marengo Km 4.5",
+    "contacto": "Ing. Patricio Andrade",
+    "email": "compras@ellitoral.ec",
+    "telefono": "+593 4 213 4500",
+    "categoria": "RETAIL MAYORISTA",
+    "fecha_actualizacion": "2026-10-15T09:00:00Z"
+  },
+  {
+    "id": "CLI-002",
+    "razon_social": "Distribuidora Andina de Alimentos Cía. Ltda.",
+    "ruc": "20109283742",
+    "ciudad": "Quito",
+    "direccion": "Parque Industrial Sur, Lote 14",
+    "contacto": "Lic. Verónica Saltos",
+    "email": "pedidos@andinaalimentos.com",
+    "telefono": "+593 2 398 7600",
+    "categoria": "DISTRIBUIDOR REGIONAL",
+    "fecha_actualizacion": "2026-10-18T11:20:00Z"
+  },
+  {
+    "id": "CLI-003",
+    "razon_social": "Cadenas Retail del Pacífico S.A.",
+    "ruc": "20556677881",
+    "ciudad": "Manta",
+    "direccion": "Malecón Jaime Chávez Gutiérrez",
+    "contacto": "Econ. Roberto Zambrano",
+    "email": "abastecimiento@retailpacifico.ec",
+    "telefono": "+593 5 262 1199",
+    "categoria": "SUPERMERCADOS",
+    "fecha_actualizacion": "2026-10-22T14:45:00Z"
+  },
+  {
+    "id": "CLI-004",
+    "razon_social": "Exportadora Frutícola del Sur",
+    "ruc": "20998877665",
+    "ciudad": "Machala",
+    "direccion": "Vía a Puerto Bolívar Km 2",
+    "contacto": "Dra. Gabriela Solórzano",
+    "email": "contacto@fruticoladelsur.com",
+    "telefono": "+593 7 293 8844",
+    "categoria": "EXPORTADOR AGRO",
+    "fecha_actualizacion": "2026-10-29T16:00:00Z"
+  }
+]
+

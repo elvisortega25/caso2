@@ -1,0 +1,118 @@
+[
+  {
+    "id": "PED-2026-001",
+    "id_cliente": "CLI-001",
+    "fecha": "2026-10-15T09:30:00Z",
+    "estado": "ENTREGADO",
+    "prioridad": "ALTA",
+    "detalle": [
+      {
+        "id_producto": "PROD-001",
+        "nombre_producto": "Pulpa de mango",
+        "cantidad": 300,
+        "precio_unitario": 4.50,
+        "subtotal": 1350.00
+      }
+    ],
+    "total": 1350.00,
+    "fecha_actualizacion": "2026-10-16T17:00:00Z"
+  },
+  {
+    "id": "PED-2026-002",
+    "id_cliente": "CLI-002",
+    "fecha": "2026-10-20T11:15:00Z",
+    "estado": "EN PROCESO",
+    "prioridad": "MEDIA",
+    "detalle": [
+      {
+        "id_producto": "PROD-002",
+        "nombre_producto": "Jugo de maracuyá",
+        "cantidad": 250,
+        "precio_unitario": 3.80,
+        "subtotal": 950.00
+      }
+    ],
+    "total": 950.00,
+    "fecha_actualizacion": "2026-10-21T08:30:00Z"
+  },
+  {
+    "id": "PED-2026-003",
+    "id_cliente": "CLI-001",
+    "fecha": "2026-10-25T14:00:00Z",
+    "estado": "PENDIENTE",
+    "prioridad": "URGENTE",
+    "detalle": [
+      {
+        "id_producto": "PROD-001",
+        "nombre_producto": "Pulpa de mango",
+        "cantidad": 400,
+        "precio_unitario": 4.50,
+        "subtotal": 1800.00
+      },
+      {
+        "id_producto": "PROD-003",
+        "nombre_producto": "Conserva de piña",
+        "cantidad": 200,
+        "precio_unitario": 5.20,
+        "subtotal": 1040.00
+      }
+    ],
+    "total": 2840.00,
+    "fecha_actualizacion": "2026-10-25T14:00:00Z"
+  },
+  {
+    "id": "PED-2026-004",
+    "id_cliente": "CLI-003",
+    "fecha": "2026-11-01T10:45:00Z",
+    "estado": "EN PROCESO",
+    "prioridad": "ALTA",
+    "detalle": [
+      {
+        "id_producto": "PROD-003",
+        "nombre_producto": "Conserva de piña",
+        "cantidad": 300,
+        "precio_unitario": 5.20,
+        "subtotal": 1560.00
+      }
+    ],
+    "total": 1560.00,
+    "fecha_actualizacion": "2026-11-01T15:20:00Z"
+  },
+  {
+    "id": "PED-2026-005",
+    "id_cliente": "CLI-001",
+    "fecha": "2026-11-03T08:30:00Z",
+    "estado": "PENDIENTE",
+    "prioridad": "MEDIA",
+    "detalle": [
+      {
+        "id_producto": "PROD-002",
+        "nombre_producto": "Jugo de maracuyá",
+        "cantidad": 350,
+        "precio_unitario": 3.80,
+        "subtotal": 1330.00
+      }
+    ],
+    "total": 1330.00,
+    "fecha_actualizacion": "2026-11-03T08:30:00Z"
+  },
+  {
+    "id": "PED-2026-006",
+    "id_cliente": "CLI-004",
+    "fecha": "2026-11-04T12:00:00Z",
+    "estado": "PENDIENTE",
+    "prioridad": "ALTA",
+    "detalle": [
+      {
+        "id_producto": "PROD-001",
+        "nombre_producto": "Pulpa de mango",
+        "cantidad": 300,
+        "precio_unitario": 4.50,
+        "subtotal": 1350.00
+      }
+    ],
+    "total": 1350.00,
+    "fecha_actualizacion": "2026-11-04T12:00:00Z"
+  }
+]
+

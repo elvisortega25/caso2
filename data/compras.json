@@ -1,0 +1,43 @@
+[
+  {
+    "id": "OC-2026-001",
+    "id_proveedor": "PRV-001",
+    "nombre_proveedor": "Agrícola San José S.A.",
+    "fecha": "2026-10-10T14:00:00Z",
+    "estado": "RECEPCIONADA",
+    "origen": "PLANIFICACION_OCTUBRE",
+    "lineas": [
+      {
+        "id_producto": "PROD-001",
+        "insumo": "Mango fresco criollo / Chausa",
+        "cantidad_kg": 1500.0,
+        "precio_kg": 1.20,
+        "subtotal": 1800.00
+      }
+    ],
+    "total": 1800.00,
+    "odoo_ref": "PO-2026-0028",
+    "fecha_actualizacion": "2026-10-12T16:00:00Z"
+  },
+  {
+    "id": "OC-2026-002",
+    "id_proveedor": "PRV-002",
+    "nombre_proveedor": "Finca Tropical Maracuyá del Litoral",
+    "fecha": "2026-10-12T10:30:00Z",
+    "estado": "RECEPCIONADA",
+    "origen": "PLANIFICACION_OCTUBRE",
+    "lineas": [
+      {
+        "id_producto": "PROD-002",
+        "insumo": "Maracuyá amarillo fresco",
+        "cantidad_kg": 1000.0,
+        "precio_kg": 1.30,
+        "subtotal": 1300.00
+      }
+    ],
+    "total": 1300.00,
+    "odoo_ref": "PO-2026-0031",
+    "fecha_actualizacion": "2026-10-14T09:00:00Z"
+  }
+]
+

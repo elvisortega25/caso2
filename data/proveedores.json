@@ -1,0 +1,45 @@
+[
+  {
+    "id": "PRV-001",
+    "razon_social": "Agrícola San José S.A.",
+    "ruc": "20334455661",
+    "insumo_principal": "Mango fresco criollo / Chausa",
+    "id_producto_asociado": "PROD-001",
+    "precio_kg_estimado": 1.20,
+    "ciudad": "Milagro",
+    "contacto": "Don Teodoro Vega",
+    "email": "ventas@agricolasanjose.ec",
+    "telefono": "+593 98 123 4567",
+    "calificacion": 4.8,
+    "fecha_actualizacion": "2026-10-10T08:00:00Z"
+  },
+  {
+    "id": "PRV-002",
+    "razon_social": "Finca Tropical Maracuyá del Litoral",
+    "ruc": "20778899002",
+    "insumo_principal": "Maracuyá amarillo fresco",
+    "id_producto_asociado": "PROD-002",
+    "precio_kg_estimado": 1.30,
+    "ciudad": "Quevedo",
+    "contacto": "Ing. Maritza Cedeño",
+    "email": "pedidos@tropicalmaracuya.com",
+    "telefono": "+593 99 765 4321",
+    "calificacion": 4.6,
+    "fecha_actualizacion": "2026-10-12T09:30:00Z"
+  },
+  {
+    "id": "PRV-003",
+    "razon_social": "Hacienda Piñera Los Esteros",
+    "ruc": "20667788993",
+    "insumo_principal": "Piña Golden entera",
+    "id_producto_asociado": "PROD-003",
+    "precio_kg_estimado": 0.95,
+    "ciudad": "Santo Domingo",
+    "contacto": "Agr. Luis Barahona",
+    "email": "abastecimiento@losesteros.ec",
+    "telefono": "+593 97 888 9900",
+    "calificacion": 4.9,
+    "fecha_actualizacion": "2026-10-14T11:00:00Z"
+  }
+]
+

@@ -1,0 +1,33 @@
+[
+  {
+    "id_producto": "PROD-001",
+    "nombre_producto": "Pulpa de mango",
+    "stock_pt": 180,
+    "unidad_pt": "UNIDAD",
+    "mp_disponible_kg": 1900.0,
+    "almacen_pt": "ALM-PT-FRIGORIFICO-1",
+    "almacen_mp": "ALM-MP-SILO-NORTE",
+    "fecha_actualizacion": "2026-11-04T10:30:00Z"
+  },
+  {
+    "id_producto": "PROD-002",
+    "nombre_producto": "Jugo de maracuyá",
+    "stock_pt": 120,
+    "unidad_pt": "UNIDAD",
+    "mp_disponible_kg": 1100.0,
+    "almacen_pt": "ALM-PT-FRIGORIFICO-2",
+    "almacen_mp": "ALM-MP-SILO-CENTRO",
+    "fecha_actualizacion": "2026-11-04T10:30:00Z"
+  },
+  {
+    "id_producto": "PROD-003",
+    "nombre_producto": "Conserva de piña",
+    "stock_pt": 90,
+    "unidad_pt": "UNIDAD",
+    "mp_disponible_kg": 850.0,
+    "almacen_pt": "ALM-PT-SECO-1",
+    "almacen_mp": "ALM-MP-BODEGA-FRUTAS",
+    "fecha_actualizacion": "2026-11-04T10:30:00Z"
+  }
+]
+

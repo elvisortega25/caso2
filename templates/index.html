@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agroindustrial del Litoral S.A. | Sistema Integrado MRP & ERP</title>
+  
+  <!-- Tipografía Inter y Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Estilos Corporativos de la Aplicación -->
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       LOGIN SCREEN OVERLAY (AUTENTICACIÓN ADMIN / GERENTE)
+       ========================================================================= -->
+  <div id="loginOverlay" class="login-screen-overlay" style="display: none;">
+    <div class="login-box">
+      <div class="login-header">
+        <div class="login-brand-icon">
+          <i class="fas fa-seedling"></i>
+        </div>
+        <h2 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px;">Agroindustrial del Litoral S.A.</h2>
+        <p style="font-size: 13px; color: var(--text-secondary);">Sistema Integrado de Procesos y Planificación MRP</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label class="form-label" for="loginUsername">Usuario del Sistema</label>
+          <input type="text" id="loginUsername" class="form-input" placeholder="ej. admin o gerente" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 6px;">
+          <i class="fas fa-sign-in-alt"></i> Iniciar Sesión en Planta
+        </button>
+      </form>
+
+      <div class="quick-roles-title">Acceso Rápido para Demostración</div>
+      <div class="quick-roles-grid">
+        <div class="role-shortcut-btn" onclick="loginComo('admin', 'admin123')">
+          <i class="fas fa-user-shield" style="color: #60a5fa; margin-bottom: 4px;"></i>
+          <strong>Administrador</strong>
+          <span>admin / admin123</span>
+        </div>
+        <div class="role-shortcut-btn" onclick="loginComo('gerente', 'gerente123')">
+          <i class="fas fa-user-tie" style="color: #34d399; margin-bottom: 4px;"></i>
+          <strong>Gerente</strong>
+          <span>gerente / gerente123</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL DE INTEGRACIÓN CON ERP ODOO
+       ========================================================================= -->
+  <div id="modalERP" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <i class="fas fa-network-wired" style="color: var(--primary); font-size: 20px;"></i>
+          <h3 style="font-size: 16px; font-weight: 700;">Simulador de Integración ERP (Odoo v17)</h3>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="cerrarModalERP()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="modalERPBody">
+        <!-- Contenido dinámico del intercambio JSON-RPC -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="cerrarModalERP()">Cerrar Ventana</button>
+        <button class="btn btn-primary" onclick="dispararSincronizacionERP()">
+          <i class="fas fa-sync-alt"></i> Re-enviar Orden a Odoo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       APP CONTAINER (SIDEBAR + MAIN CONTENT)
+       ========================================================================= -->
+  <div class="app-container">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-badge">
+          <i class="fas fa-seedling"></i>
+        </div>
+        <div class="logo-text">
+          <h1>AGROLITORAL S.A.</h1>
+          <span>Integración Empresarial</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Estratégico</div>
+        <button class="nav-btn active" data-tab="dashboard">
+          <i class="fas fa-chart-pie"></i>
+          <span>Dashboard (5 KPIs)</span>
+        </button>
+        <button class="nav-btn" data-tab="mrp">
+          <i class="fas fa-boxes-stacked"></i>
+          <span>Planificación MRP (+30%)</span>
+          <span class="pill-badge badge-warning">Deficit MP</span>
+        </button>
+
+        <div class="nav-section-title">Operaciones</div>
+        <button class="nav-btn" data-tab="operativo">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Pedidos e Inventario</span>
+        </button>
+        <button class="nav-btn" data-tab="erp">
+          <i class="fas fa-network-wired"></i>
+          <span>Integración ERP Odoo</span>
+        </button>
+
+        <div class="nav-section-title">Inteligencia & Sistemas</div>
+        <button class="nav-btn" data-tab="ia">
+          <i class="fas fa-robot"></i>
+          <span>Asistente IA (RAG)</span>
+          <span class="pill-badge badge-primary">Local</span>
+        </button>
+        <button class="nav-btn" data-tab="auditoria">
+          <i class="fas fa-shield-alt"></i>
+          <span>Auditoría de Integridad</span>
+        </button>
+        <button class="nav-btn" data-tab="etl">
+          <i class="fas fa-database"></i>
+          <span>Pipeline ETL</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="main-wrapper">
+      
+      <!-- TOP HEADER -->
+      <header class="top-header">
+        <div class="header-left">
+          <h2 class="page-title" id="pageTitle">Dashboard Gerencial & KPIs</h2>
+          <div class="header-badges">
+            <span class="badge badge-success"><i class="fas fa-circle" style="font-size: 7px;"></i> En Línea</span>
+            <span class="badge badge-primary">Proyección: +30% Demanda</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="user-profile-badge">
+            <div class="user-avatar" id="userAvatar">A</div>
+            <div class="user-info">
+              <span class="user-name" id="userName">Cargando...</span>
+              <span class="user-role-tag" id="userRole">ROL</span>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btnLogout" title="Cerrar Sesión">
+            <i class="fas fa-sign-out-alt"></i> Salir
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <main class="content-body">
+
+        <!-- ===================================================================
+             TAB 1: DASHBOARD GERENCIAL (5 KPIS)
+             =================================================================== -->
+        <section id="tab-dashboard" class="tab-pane active">
+          
+          <!-- 5 TARJETAS DE KPIS PRINCIPALES -->
+          <div class="kpis-grid">
+            
+            <!-- KPI 1 -->
+            <div class="kpi-card primary">
+              <div class="kpi-header">
+                <span class="kpi-title">Total Pedidos</span>
+                <div class="kpi-icon-wrap"><i class="fas fa-shopping-cart"></i></div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi1Valor">-</span>
+                <span class="kpi-unit">pedidos</span>
+              </div>
+              <p class="kpi-subtext" id="kpi1Detalle">Cargando...</p>
+            </div>
+
+            <!-- KPI 2 -->
+            <div class="kpi-card indigo">
+              <div class="kpi-header">
+                <span class="kpi-title">Unidades a Producir</span>
+                <div class="kpi-icon-wrap"><i class="fas fa-industry"></i></div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi2Valor">-</span>
+                <span class="kpi-unit">unidades</span>
+              </div>
+              <p class="kpi-subtext" id="kpi2Detalle">Incremento +30% aplicado</p>
+            </div>
+
+            <!-- KPI 3 -->
+            <div class="kpi-card teal">
+              <div class="kpi-header">
+                <span class="kpi-title">Materia Prima Requerida</span>
+                <div class="kpi-icon-wrap"><i class="fas fa-weight-hanging"></i></div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi3Valor">-</span>
+              </div>
+              <p class="kpi-subtext" id="kpi3Detalle">Para cubrir producción</p>
+            </div>
+
+            <!-- KPI 4 -->
+            <div class="kpi-card amber">
+              <div class="kpi-header">
+                <span class="kpi-title">Compras Sugeridas</span>
+                <div class="kpi-icon-wrap"><i class="fas fa-cart-plus"></i></div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi4Valor">-</span>
+              </div>
+              <p class="kpi-subtext" id="kpi4Detalle">Déficit neto de insumos</p>
+            </div>
+
+            <!-- KPI 5 -->
+            <div class="kpi-card danger" id="cardKpi5">
+              <div class="kpi-header">
+                <span class="kpi-title">Productos en Riesgo</span>
+                <div class="kpi-icon-wrap"><i class="fas fa-triangle-exclamation"></i></div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-value" id="kpi5Valor">-</span>
+                <span class="kpi-unit">críticos</span>
+              </div>
+              <p class="kpi-subtext" id="kpi5Detalle">Desabastecimiento MP</p>
+            </div>
+
+          </div>
+
+          <!-- RESUMEN DE LOS 3 PRODUCTOS BASE -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <i class="fas fa-cubes-stacked"></i>
+                <div>
+                  <h3 class="card-title">Balance Operativo de Productos Base</h3>
+                  <p class="card-subtitle">Demanda actual, proyección comercial y cobertura de stocks en bodega</p>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="cambiarPestana('mrp')">
+                <i class="fas fa-arrow-right"></i> Ver Tabla MRP Detallada
+              </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 18px;" id="dashboardProductsSummary">
+              <!-- Render dinámico de las 3 tarjetas de producto -->
+            </div>
+          </div>
+
+          <!-- BANNER DE ACCIÓN RÁPIDA -->
+          <div style="background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(15, 23, 42, 0.6)); border: 1px solid #2563eb; border-radius: var(--radius-lg); padding: 22px 26px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <h4 style="font-size: 15.5px; font-weight: 700; color: #93c5fd;">Integración ERP Odoo Lista para Despacho</h4>
+              <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+                Existen <strong>620.0 kg</strong> de compras sugeridas (Mango y Maracuyá) para transferir automáticamente al módulo de adquisiciones de Odoo.
+              </p>
+            </div>
+            <button class="btn btn-primary" onclick="dispararSincronizacionERP()">
+              <i class="fas fa-paper-plane"></i> Emitir Órdenes a Odoo Ahora
+            </button>
+          </div>
+
+        </section>
+
+        <!-- ===================================================================
+             TAB 2: PLANIFICACIÓN Y MRP (+30%)
+             =================================================================== -->
+        <section id="tab-mrp" class="tab-pane">
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <i class="fas fa-calculator"></i>
+                <div>
+                  <h3 class="card-title">Matriz de Planificación de Requerimientos de Materiales (MRP)</h3>
+                  <p class="card-subtitle">
+                    Reglas aplicadas: Demanda proyectada (+30%) | Prod. Req = max(0, Proy - PT) | MP Req = Prod. Req * MP/u | Compra Sugerida = max(0, MP Req - MP Disp)
+                  </p>
+                </div>
+              </div>
+              <div class="card-actions">
+                <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Simular Factor:</span>
+                <button class="btn btn-secondary btn-sm btn-factor-mrp" data-factor="1.10">+10%</button>
+                <button class="btn btn-secondary btn-sm btn-factor-mrp" data-factor="1.20">+20%</button>
+                <button class="btn btn-primary btn-sm btn-factor-mrp active" data-factor="1.30">+30% (Base)</button>
+                <button class="btn btn-secondary btn-sm btn-factor-mrp" data-factor="1.50">+50%</button>
+                <button class="btn btn-success btn-sm" onclick="dispararSincronizacionERP()">
+                  <i class="fas fa-cloud-upload-alt"></i> Exportar a ERP Odoo
+                </button>
+              </div>
+            </div>
+
+            <!-- TABLA REQUERIDA EXACTA -->
+            <div class="table-responsive">
+              <table class="enterprise-table">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th style="text-align: right;">Demanda Actual</th>
+                    <th style="text-align: right;">Proyección (+30%)</th>
+                    <th style="text-align: right;">Stock PT</th>
+                    <th style="text-align: right;">Producción Requerida</th>
+                    <th style="text-align: right;">MP/Unidad</th>
+                    <th style="text-align: right;">MP Req (kg)</th>
+                    <th style="text-align: right;">MP Disp (kg)</th>
+                    <th style="text-align: right;">Compra Sugerida (kg)</th>
+                    <th style="text-align: center;">Estado Abastecimiento</th>
+                  </tr>
+                </thead>
+                <tbody id="mrpTableBody">
+                  <!-- Carga dinámica -->
+                </tbody>
+                <tfoot id="mrpTableFoot">
+                  <!-- Totales calculados -->
+                </tfoot>
+              </table>
+            </div>
+
+            <!-- NOTA TÉCNICA -->
+            <div style="margin-top: 18px; padding: 14px 18px; background: rgba(0, 0, 0, 0.2); border-radius: var(--radius-md); border-left: 4px solid var(--primary); font-size: 12.5px; color: var(--text-secondary);">
+              <strong><i class="fas fa-info-circle"></i> Integridad y Desacoplamiento de Almacenamiento:</strong>
+              El sistema realiza las proyecciones en memoria en tiempo de ejecución. Los archivos persistentes originales en <code>/data/*.json</code> permanecen inmutables cumpliendo el principio de no sobreescritura de datos base.
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ===================================================================
+             TAB 3: GESTIÓN OPERATIVA (PEDIDOS, CLIENTES, INVENTARIO)
+             =================================================================== -->
+        <section id="tab-operativo" class="tab-pane">
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <i class="fas fa-folder-open"></i>
+                <div>
+                  <h3 class="card-title">Datos Maestros y Operacionales</h3>
+                  <p class="card-subtitle">Registros consolidados cargados en memoria por el Pipeline ETL</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="subtabs-bar">
+              <button class="subtab-btn active" data-subtab="pedidos">Pedidos de Clientes (6)</button>
+              <button class="subtab-btn" data-subtab="inventario">Inventario (PT y MP)</button>
+              <button class="subtab-btn" data-subtab="clientes">Cartera de Clientes</button>
+              <button class="subtab-btn" data-subtab="proveedores">Proveedores de Fruta</button>
+            </div>
+
+            <!-- SUBTAB PEDIDOS -->
+            <div id="subtab-pedidos" class="subtab-content">
+              <div class="table-responsive">
+                <table class="enterprise-table">
+                  <thead>
+                    <tr>
+                      <th>Código Pedido</th>
+                      <th>Cliente</th>
+                      <th>Fecha</th>
+                      <th>Detalle de Productos</th>
+                      <th style="text-align: right;">Total (USD)</th>
+                      <th>Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pedidosTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- SUBTAB INVENTARIO -->
+            <div id="subtab-inventario" class="subtab-content" style="display: none;">
+              <div class="table-responsive">
+                <table class="enterprise-table">
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                      <th style="text-align: right;">Stock Producto Terminado</th>
+                      <th>Ubicación Bodega PT</th>
+                      <th style="text-align: right;">Materia Prima Disponible</th>
+                      <th>Ubicación Bodega MP</th>
+                      <th>Última Actualización</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventarioTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- SUBTAB CLIENTES -->
+            <div id="subtab-clientes" class="subtab-content" style="display: none;">
+              <div class="table-responsive">
+                <table class="enterprise-table">
+                  <thead>
+                    <tr>
+                      <th>Razón Social</th>
+                      <th>RUC</th>
+                      <th>Ciudad</th>
+                      <th>Contacto & Email</th>
+                      <th>Segmento</th>
+                    </tr>
+                  </thead>
+                  <tbody id="clientesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- SUBTAB PROVEEDORES -->
+            <div id="subtab-proveedores" class="subtab-content" style="display: none;">
+              <div class="table-responsive">
+                <table class="enterprise-table">
+                  <thead>
+                    <tr>
+                      <th>Proveedor</th>
+                      <th>Insumo Frutícola</th>
+                      <th style="text-align: right;">Precio Estimado/kg</th>
+                      <th>Ubicación</th>
+                      <th>Calificación</th>
+                    </tr>
+                  </thead>
+                  <tbody id="proveedoresTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ===================================================================
+             TAB 4: MOTOR DE VALIDACIÓN DE INTEGRIDAD
+             =================================================================== -->
+        <section id="tab-auditoria" class="tab-pane">
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <i class="fas fa-shield-halved"></i>
+                <div>
+                  <h3 class="card-title">Motor de Auditoría y Verificación de Integridad</h3>
+                  <p class="card-subtitle">Inspección de sintaxis JSON, duplicidad de IDs, integridad referencial (FK) y no negatividad numérica</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- LABORATORIO DE PRUEBAS DE AUDITORÍA -->
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px; margin-bottom: 24px;">
+              <h4 style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+                <i class="fas fa-vial"></i> Laboratorio de Pruebas de Resiliencia:
+              </h4>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;">
+                Permite simular en memoria una anomalía de datos para evaluar la capacidad de detección del motor validador en tiempo real.
+              </p>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn btn-secondary btn-sm" onclick="simularIncoherencia('clave_foranea')">
+                  <i class="fas fa-link-slash"></i> Inyectar Clave Foránea Rota (Cliente Inexistente)
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="simularIncoherencia('valor_negativo')">
+                  <i class="fas fa-minus-circle"></i> Inyectar Stock Negativo (-250 u)
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="simularIncoherencia('id_duplicado')">
+                  <i class="fas fa-clone"></i> Inyectar ID Duplicado
+                </button>
+                <button class="btn btn-success btn-sm" onclick="restaurarIntegridad()">
+                  <i class="fas fa-check-double"></i> Restaurar Integridad (100% Óptimo)
+                </button>
+              </div>
+            </div>
+
+            <div id="auditoriaResults">
+              <!-- Resultados de la auditoría -->
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ===================================================================
+             TAB 5: PIPELINE ETL
+             =================================================================== -->
+        <section id="tab-etl" class="tab-pane">
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <i class="fas fa-gears"></i>
+                <div>
+                  <h3 class="card-title">Pipeline de Extracción, Transformación y Carga (ETL)</h3>
+                  <p class="card-subtitle">Normalización de esquemas, estandarización de fechas ISO y desduplicación determinista</p>
+                </div>
+              </div>
+              <button class="btn btn-primary" id="btnEjecutarETL" onclick="ejecutarETLAhora()">
+                <i class="fas fa-play"></i> Re-ejecutar Pipeline ETL Ahora
+              </button>
+            </div>
+
+            <!-- MÉTRICAS ETL -->
+            <div class="kpis-grid" style="margin-bottom: 24px;">
+              <div class="kpi-card teal">
+                <div class="kpi-header"><span class="kpi-title">Última Ejecución</span></div>
+                <div class="kpi-value" id="etlUltimaEjecucion" style="font-size: 16px;">-</div>
+              </div>
+              <div class="kpi-card indigo">
+                <div class="kpi-header"><span class="kpi-title">Tiempo de Proceso</span></div>
+                <div class="kpi-value" id="etlDuracion" style="font-size: 22px;">-</div>
+              </div>
+              <div class="kpi-card primary">
+                <div class="kpi-header"><span class="kpi-title">Registros Extraídos</span></div>
+                <div class="kpi-value" id="etlExtraidos" style="font-size: 22px;">-</div>
+              </div>
+              <div class="kpi-card success">
+                <div class="kpi-header"><span class="kpi-title">Cargados en Memoria</span></div>
+                <div class="kpi-value" id="etlCargados" style="font-size: 22px;">-</div>
+              </div>
+              <div class="kpi-card amber">
+                <div class="kpi-header"><span class="kpi-title">Duplicados Descartados</span></div>
+                <div class="kpi-value" id="etlDuplicados" style="font-size: 22px;">-</div>
+              </div>
+              <div class="kpi-card primary">
+                <div class="kpi-header"><span class="kpi-title">Normalizaciones</span></div>
+                <div class="kpi-value" id="etlNormalizaciones" style="font-size: 22px;">-</div>
+              </div>
+            </div>
+
+            <!-- ESPECIFICACIÓN TÉCNICA DEL PIPELINE -->
+            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;">
+              <h4 style="font-size: 14px; font-weight: 700; color: #60a5fa; margin-bottom: 10px;">
+                <i class="fas fa-code-branch"></i> Arquitectura del Pipeline ETL Implementado:
+              </h4>
+              <ul style="padding-left: 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>Extracción (Extract):</strong> Lee los 6 archivos JSON persistentes (<code>productos.json</code>, <code>inventario.json</code>, <code>clientes.json</code>, <code>proveedores.json</code>, <code>pedidos.json</code>, <code>compras.json</code>).</li>
+                <li><strong>Transformación (Transform):</strong> Limpieza con <code>strip()</code>, conversión a mayúsculas de estados/categorías, estandarización de fechas al formato internacional <strong>ISO 8601 (YYYY-MM-DDTHH:MM:SSZ)</strong>.</li>
+                <li><strong>Regla de Desduplicación Documentada:</strong> <em>"En caso de colisión de identificadores clave (ej. ID de producto repetido), el motor conserva el registro con la <code>fecha_actualizacion</code> más reciente"</em>.</li>
+                <li><strong>Carga (Load):</strong> Consolida los objetos limpios en la estructura en memoria <code>DataWarehouse</code> de Flask sin alterar los archivos de origen.</li>
+              </ul>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ===================================================================
+             TAB 6: ASISTENTE DE CONSULTA CON IA (RAG LOCAL)
+             =================================================================== -->
+        <section id="tab-ia" class="tab-pane">
+          
+          <div class="card" style="padding: 0; overflow: hidden;">
+            <div class="chat-container">
+              
+              <div class="chat-header">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div class="message-avatar" style="background: linear-gradient(135deg, #10b981, #0284c7); color: white;">
+                    <i class="fas fa-robot"></i>
+                  </div>
+                  <div>
+                    <h3 style="font-size: 15px; font-weight: 700;">Asistente Inteligente de Planta (RAG Estricto)</h3>
+                    <p style="font-size: 11.5px; color: var(--text-muted);">
+                      Respuestas basadas 100% en los datos empresariales cargados | Fallback automático garantizado
+                    </p>
+                  </div>
+                </div>
+                <span class="badge badge-primary"><i class="fas fa-lock"></i> Contexto Seguro Local</span>
+              </div>
+
+              <!-- HISTORIAL DE MENSAJES -->
+              <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                  <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                  <div class="message-body">
+                    <div class="message-content">
+                      ¡Hola! Soy el <strong>Asistente Virtual de Agroindustrial del Litoral S.A.</strong><br>
+                      Estoy conectado directamente a los módulos de inventario, pedidos y MRP (+30%). 
+                      Puedes consultar sobre compras sugeridas, niveles de stock, clientes principales o alertas de abastecimiento.
+                    </div>
+                    <div class="message-meta">Sistema</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CHIPS DE CONSULTA PRECARGADOS (LAS 5 PREGUNTAS CLAVE) -->
+              <div class="quick-chips-wrapper">
+                <div class="chips-label">Preguntas clave de prueba sugeridas:</div>
+                <div class="chips-container">
+                  <button class="chip-btn" onclick="preguntarIA('¿Cuál es la compra sugerida para la pulpa de mango?')">
+                    a) Compra sugerida: Mango
+                  </button>
+                  <button class="chip-btn" onclick="preguntarIA('¿Cuánto stock de producto terminado tenemos de jugo de maracuyá?')">
+                    b) Stock PT: Maracuyá
+                  </button>
+                  <button class="chip-btn" onclick="preguntarIA('¿Cuáles son los productos con riesgo de desabastecimiento de materia prima?')">
+                    c) Productos con riesgo
+                  </button>
+                  <button class="chip-btn" onclick="preguntarIA('¿Cuántas unidades en total se deben producir con el aumento del 30%?')">
+                    d) Unidades a producir (+30%)
+                  </button>
+                  <button class="chip-btn" onclick="preguntarIA('¿Cuál es el cliente con más pedidos registrados?')">
+                    e) Cliente con más pedidos
+                  </button>
+                  <button class="chip-btn" style="border-color: #f59e0b;" onclick="preguntarIA('¿Cuál es la cotización del euro hoy?')">
+                    Test Fallback (Pregunta externa)
+                  </button>
+                </div>
+              </div>
+
+              <!-- BARRA DE ENTRADA -->
+              <div class="chat-input-bar">
+                <input type="text" id="inputChat" placeholder="Escribe tu consulta sobre stock, demanda o compras sugeridas..." autocomplete="off">
+                <button class="btn btn-primary" id="btnEnviarChat">
+                  <i class="fas fa-paper-plane"></i> Consultar
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ===================================================================
+             TAB 7: SIMULADOR ERP ODOO
+             =================================================================== -->
+        <section id="tab-erp" class="tab-pane">
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-group">
+                <i class="fas fa-satellite-dish"></i>
+                <div>
+                  <h3 class="card-title">Intercambio Bidireccional con ERP Odoo (v17)</h3>
+                  <p class="card-subtitle">Sincronización de compras sugeridas vía protocolo JSON-RPC con confirmación ficticia</p>
+                </div>
+              </div>
+              <button class="btn btn-primary" onclick="dispararSincronizacionERP()">
+                <i class="fas fa-sync"></i> Ejecutar Sincronización Ahora
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="enterprise-table">
+                <thead>
+                  <tr>
+                    <th>ID Compra Local</th>
+                    <th>Referencia Odoo ERP</th>
+                    <th>Proveedor</th>
+                    <th>Líneas / Insumo</th>
+                    <th style="text-align: right;">Total Transacción</th>
+                    <th>Estado ERP</th>
+                  </tr>
+                </thead>
+                <tbody id="erpOrdersTableBody">
+                  <!-- Carga dinámica -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Script de la aplicación -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
+

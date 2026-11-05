@@ -1,0 +1,25 @@
+[
+  {
+    "username": "admin",
+    "password_hash": "admin123",
+    "nombre": "Ing. Carlos Mendoza",
+    "rol": "ADMINISTRADOR",
+    "email": "carlos.mendoza@agrolitoral.ec",
+    "cargo": "Jefe de Sistemas & Operaciones",
+    "departamento": "Tecnología y Operaciones",
+    "permisos": ["all", "etl_exec", "audit_full", "erp_sync", "config_write", "mrp_view", "pedidos_view"],
+    "ultimo_acceso": "2026-11-05T14:30:00Z"
+  },
+  {
+    "username": "gerente",
+    "password_hash": "gerente123",
+    "nombre": "Lic. María Elena Ramos",
+    "rol": "GERENTE",
+    "email": "maria.ramos@agrolitoral.ec",
+    "cargo": "Gerente General de Planta",
+    "departamento": "Dirección General",
+    "permisos": ["view_kpis", "view_mrp", "view_reports", "ask_ia", "view_pedidos", "export_reports"],
+    "ultimo_acceso": "2026-11-05T13:45:00Z"
+  }
+]
+
